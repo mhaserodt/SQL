@@ -7,7 +7,7 @@ Data is that of the 2023-24 Columbus Blue Jackets NHL team.   It includes goals,
 ### A sample of all data
 
     SELECT *
-	FROM cbjhockey.scoring
+    FROM cbjhockey.scoring
     LIMIT 5;
 | Rk | Player           | Age | Pos | GP | G_Scored | Assist | PTS | +/- | PIM | EV_goals | PP_goals | SH_goals | GW_goals | EV_asst | PP_asst | SH_asst | S   | S%   | TOI  | ATOI     | OPS | DPS | PS  | BLK | HIT | FOW | FOL | FO%  |
 |----|------------------|-----|-----|----|----------|--------|-----|-----|-----|----------|----------|----------|----------|---------|---------|---------|-----|------|------|----------|-----|-----|-----|-----|-----|-----|-----|------|
@@ -26,13 +26,13 @@ Data is that of the 2023-24 Columbus Blue Jackets NHL team.   It includes goals,
  
 
     SELECT
-		player,
+    	player,
 		GP,
 		PTS,
 		Lead(PTS, 1, 0) OVER(order by PTS desc) Pts1_Behind,
-        Lead(PTS, 2, 0) OVER(order by PTS desc) Pts2_Behind
-	FROM cbjhockey.scoring
-	LIMIT 5;
+  		Lead(PTS, 2, 0) OVER(order by PTS desc) Pts2_Behind
+    FROM cbjhockey.scoring
+    LIMIT 5;
 	
 | player           | GP | PTS | Pts1_Behind | Pts2_Behind |
 |------------------|----|-----|-------------|-------------|
@@ -49,8 +49,8 @@ Data is that of the 2023-24 Columbus Blue Jackets NHL team.   It includes goals,
 		GP,
 		Pts,
 		Lag(PTS, 1, 0) OVER(order by PTS desc) Pts1_Ahead,
-        Lag(PTS, 2, 0) OVER(order by PTS desc) Pts2_Ahead
-	FROM cbjhockey.scoring
+    	Lag(PTS, 2, 0) OVER(order by PTS desc) Pts2_Ahead
+    FROM cbjhockey.scoring
     LIMIT 5;
 
 | player           | GP | PTS | Pts1_Ahead | Pts2_Ahead |
@@ -70,12 +70,12 @@ Data is that of the 2023-24 Columbus Blue Jackets NHL team.   It includes goals,
 
     SELECT
 		player,
-        Pos,
+     	Pos,
 		GP,
 		Pts,
 		Lead(Pts, 1, 0) over (Partition by Pos order by Pts desc) Pts1,
 		Lead(Pts, 2, 0) over (Partition by Pos order by Pts desc) Pts2
-	FROM cbjhockey.scoring;
+    FROM cbjhockey.scoring;
 
 | player              | Pos | GP | Pts | Pts1 | Pts2 |
 |---------------------|-----|----|-----|------|------|
