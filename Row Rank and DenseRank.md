@@ -26,13 +26,13 @@ Rank() will rank data in order.  If there is a tie it will assign the same rank 
 Dense_Rank() is similar to Rank(), but if there are ties it will assign each the same rank and go to the next number without skipping.
  
 
-    SELECT
+	SELECT
 		player,
-		GP,
+ 		GP,
 		PTS,
 		row_number() over (order by PTS desc) RowNumPTS,
-        rank() over (order by PTS desc) RankPTS,
-        dense_rank() over (order by PTS desc) DenseRankPTS
+		rank() over (order by PTS desc) RankPTS,
+		dense_rank() over (order by PTS desc) DenseRankPTS
 	FROM cbjhockey.scoring;
 	
 | player              | GP | PTS | RowNumPts | RankPTS | DenseRankPTS |
@@ -83,14 +83,14 @@ Each method has its own place depending on how you want to analyze and display t
 
 ## Going a step further and partitioning by player position
 
-    SELECT
-		player,
-        POS,
-		GP,
-		PTS,
+	SELECT
+ 		player,
+   		POS,
+     	GP,
+       	PTS,
 		row_number() over (Partition by POS order by PTS desc) RowNumPTS,
-        rank() over (Partition by POS order by PTS desc) RankPTS,
-        dense_rank() over (Partition by POS order by PTS desc) DenseRankPTS
+  		rank() over (Partition by POS order by PTS desc) RankPTS,
+      	dense_rank() over (Partition by POS order by PTS desc) DenseRankPTS
 	FROM cbjhockey.scoring;
 | player              | POS | GP | PTS | RowNumPts | RankPTS | DenseRankPTS |
 |---------------------|-----|----|-----|-----------|---------|--------------|
