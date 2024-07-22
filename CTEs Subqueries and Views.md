@@ -53,7 +53,7 @@ With this little bit of easy data simple joins can bring both tables together.
  
 
 	SELECT 
-		a.Player,
+ 	    a.Player,
 	    a.Last,
 	    a.Age,
 	    a.Wt,
@@ -63,8 +63,8 @@ With this little bit of easy data simple joins can bring both tables together.
 	    b.Assist,
 	    b.PTS
 	FROM cbjhockey.personal a
-	JOIN cbjhockey.scoring b
-		ON a.Last = b.Last;
+		JOIN cbjhockey.scoring b
+			ON a.Last = b.Last;
 | Player           | Last        | Age | Wt  | Player           | Last        | G_Scored | Assist | PTS |
 |------------------|-------------|-----|-----|------------------|-------------|----------|--------|-----|
 | Jake Bean        | Bean        | 25  | 191 | Jake Bean        | Bean        | 4        | 9      | 13  |
@@ -82,7 +82,7 @@ Age and weight are in the personal table.  Penalty minutes (PIM) and games playe
 We could do subqueries to get the job done such as;
 
 	 SELECT 
-		a.Player,
+	    a.Player,
 	    a.Last,
 	    a.Age,
 	    a.Wt,
@@ -114,14 +114,14 @@ That works fine, but there's a little better way to do this using CTEs
 		SELECT * FROM cbjhockey.scoring WHERE PIM >= 20
 	)
 	SELECT 
-		a.Player,
-		a.Last,
-		a.Age,
-		a.Wt,
-		b.Player,
-		b.Last,
-		b.PIM,
-		b.GP
+	    a.Player,
+	    a.Last,
+	    a.Age,
+	    a.Wt,
+	    b.Player,
+	    b.Last,
+	    b.PIM,
+	    b.GP
 	FROM cbjhockey.personal a
 		JOIN PIM_over_20 b
 			ON a.last = b.last;
@@ -148,16 +148,16 @@ or we could create a temp table that will work throughout our instance.
     CREATE VIEW PIM_over_20_temp AS SELECT * FROM cbjhockey.scoring WHERE PIM >= 20;
 
 Then we can just query that temporary table.
-	
+
 	SELECT 
-		a.Player,
-		a.Last,
-		a.Age,
-		a.Wt,
-		b.Player,
-		b.Last,
-		b.PIM,
-		b.GP
+	    a.Player,
+	    a.Last,
+	    a.Age,
+	    a.Wt,
+	    b.Player,
+	    b.Last,
+	    b.PIM,
+	    b.GP
 	FROM cbjhockey.personal a
 		JOIN PIM_over_20_temp b
 			ON a.last = b.last;
@@ -170,12 +170,12 @@ Then we can just query that temporary table.
 | Erik Gudbranson  | Gudbranson | 32  | 222 | Erik Gudbranson  | Gudbranson | 74  | 78 |
 | David Ji?Ã­?ek   | Ji?Ã­?ek   | 20  | 189 | David Ji?Ã­?ek   | Ji?Ã­?ek   | 22  | 43 |
 
-Maybe we wnat to see the players' birth place (birth), penalty minutes (PIM), and points (PTS)
+Maybe we want to see the players' birth place (birth), penalty minutes (PIM), and points (PTS)
 Since we already have that temporary table defined, we just need to update our select statement.
 
-	   SELECT
-		a.Player,
-		a.Last,
+	SELECT
+	    a.Player,
+	    a.Last,
 	    a.Birth,
 	    b.Player,
 	    b.Last,
@@ -185,3 +185,10 @@ Since we already have that temporary table defined, we just need to update our s
 		JOIN PIM_over_20_temp b
 			ON a.last = b.last;
 
+| Player          | Last       | Birth | Player          | Last       | PIM | PTS |
+|-----------------|------------|-------|-----------------|------------|-----|-----|
+| Jake Bean       | Bean       | CA    | Jake Bean       | Bean       | 32  | 13  |
+| Justin Danforth | Danforth   | CA    | Justin Danforth | Danforth   | 26  | 26  |
+| Johnny Gaudreau | Gaudreau   | US    | Johnny Gaudreau | Gaudreau   | 22  | 60  |
+| Erik Gudbranson | Gudbranson | CA    | Erik Gudbranson | Gudbranson | 74  | 26  |
+| David Ji?Ã­?ek  | Ji?Ã­?ek   | CZ    | David Ji?Ã­?ek  | Ji?Ã­?ek   | 22  | 10  |
